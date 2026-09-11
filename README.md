@@ -1,2 +1,9 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+# FoxLite Interpreter
+
+Implementación del lenguaje de programación **FoxLite** en Dart.
+
+Este proyecto sigue el enfoque presentado en el libro de Irwin Rodríguez, pero la implementación está realizada en Dart.
+
+## Licencia
+
+MIT
