@@ -1,5 +1,6 @@
-import 'package:foxlite_interpreter/foxlite_interpreter.dart' as foxlite_interpreter;
+import 'package:foxlite_interpreter/foxlite_interpreter.dart';
 
-void main(List<String> arguments) {
-  print('Hello world: ${foxlite_interpreter.calculate()}!');
+void main() {
+  final repl = ReplV1();
+  repl.run();
 }

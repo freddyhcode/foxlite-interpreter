@@ -1,3 +1,1 @@
-int calculate() {
-  return 6 * 7;
-}
+export 'package:foxlite_interpreter/repl/repl_v1.dart';
