@@ -51,6 +51,7 @@ class Lexer {
   /// Retorna [String?].
   String? peek() {
     final int peekPosition = currentPos + 1;
+
     if (peekPosition >= source.length) {
       return null;
     } else {
@@ -63,10 +64,12 @@ class Lexer {
   /// Retorna un [Token].
   Token isNumber() {
     String lexeme = "";
+
     while (currentChar != "" && _isDigit(currentChar) ) {
       lexeme += currentChar;
       advance();
     }
+
     return newToken(TokenType.tpInt, lexeme);
   }
 
@@ -76,13 +79,18 @@ class Lexer {
   /// 
   /// Retorna un [Token].
   Token isString(String stringDelim) {
-    advance(); // Avanza el primer delimitador del string
+    // Avanza el primer delimitador del string
+    advance(); 
+    
     String lexeme = "";
+
     while (currentChar != "" && currentChar != stringDelim) {
       lexeme += currentChar;
       advance();
     }
-    advance(); // Avanza el segundo delimitador del string
+    // Avanza el segundo delimitador del string
+    advance();
+    
     return newToken(TokenType.tpString, lexeme);
   }
   
@@ -105,14 +113,19 @@ class Lexer {
   Token dottedIdentifier() {
     final String dot = ".";
     String lexeme = dot;
+
     advance();
+
     while (currentChar != "" && currentChar != dot) {
       lexeme += currentChar;
       advance();
     }
+
     lexeme += dot;
     advance();
+
     TokenType tokenType = Keywords.lookupIdent(lexeme);
+
     return newToken(tokenType, lexeme);
   }
 
@@ -194,44 +207,63 @@ class Lexer {
 
       // Caracteres de 1 o mas digitos de longitud
       if (currentChar == "=") {
-        advance(); // Avanza el "="
+        // Avanza el "="
+        advance(); 
         if (currentChar == "=" ) {
-          advance(); // Avanza el segundo "="
+          // Avanza el segundo "="
+          advance(); 
+
           return newToken(TokenType.tpEqual, TokenType.tpEqual.value);
         }
+
         return newToken(TokenType.tpAssign, TokenType.tpAssign.value);
       }
 
       if (currentChar == "!") {
-        advance(); // Avanza el "!"
+        // Avanza el "!"
+        advance(); 
         if (currentChar == "=") {
-          advance(); // Avanza el "="
+          // Avanza el "="
+          advance(); 
+
           return newToken(TokenType.tpNotEqual, TokenType.tpNotEqual.value);
         }
+
         return newToken(TokenType.tpNot, TokenType.tpNot.value);
       }
 
       if (currentChar == "<") {
-        advance(); // Avanza el "<"
+        // Avanza el "<"
+        advance(); 
+
         if (currentChar == "=") {
-          advance(); // Avanza el "="
+          // Avanza el "="
+          advance(); 
+
           return newToken(TokenType.tpLessEq, TokenType.tpLessEq.value);
         }
+
         return newToken(TokenType.tpLess, TokenType.tpLess.value);
       }
 
       if (currentChar == ">") {
-        advance(); // Avanza el ">"
+        // Avanza el ">"
+        advance(); 
+
         if (currentChar == "=") {
-          advance(); // Avanza el "="
+          // Avanza el "="
+          advance(); 
+
           return newToken(TokenType.tpGreaterEq, TokenType.tpGreaterEq.value);
         }
+
         return newToken(TokenType.tpGreater, TokenType.tpGreater.value);
       }
 
       // Caracter de impresion
       if (currentChar == "?") {
         advance();
+        
         return newToken(TokenType.tpPrint, TokenType.tpPrint.value);
       }
       
