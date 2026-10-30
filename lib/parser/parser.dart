@@ -70,7 +70,8 @@ class Parser {
       eat(TokenType.tpLbreak);
     }
 
-    while (curToken.type != endingBlockTokenType) {
+    while (curToken.type != endingBlockTokenType &&
+        curToken.type != TokenType.tpEof) {
       final previousToken = curToken;
       final statement = this.statement();
 
@@ -209,7 +210,8 @@ class Parser {
     ifStmt.consequence = ast.Block();
 
     while (curToken.type != TokenType.tpElse &&
-        curToken.type != TokenType.tpEndIf) {
+        curToken.type != TokenType.tpEndIf &&
+        curToken.type != TokenType.tpEof) {
       final previousToken = curToken;
       final statement = this.statement();
 
