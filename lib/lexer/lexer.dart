@@ -15,7 +15,8 @@ class Lexer {
   String? lastTokenValue;
 
   Lexer(this.source) {
-    currentChar = source[0];
+    // Si el código fuente está vacío no hay primer carácter que leer.
+    currentChar = source.isEmpty ? "" : source[0];
   } 
 
   /// Crea un token y actualiza el valor del último token generado.
@@ -151,10 +152,16 @@ class Lexer {
     while (currentChar != "") {
       // Salto de linea
       if (currentChar == "\n") {
-        // Si el token anterior no es LBREAK entonces generamos el token LBREAK
-        if (lastTokenValue != "" && lastTokenValue != TokenType.tpLbreak.value) {
+        // Avanza el "\n"
+        advance();
+
+        // Si el token anterior no es LBREAK
+        // entonces generamos el token LBREAK.
+        if (lastTokenValue != null && lastTokenValue != TokenType.tpLbreak.value) {
           return newToken(TokenType.tpLbreak, TokenType.tpLbreak.value);
         }
+
+        continue;
       }
 
       // Ignoramos los espacios en blanco
