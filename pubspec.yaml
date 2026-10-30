@@ -1,13 +1,14 @@
 name: foxlite_interpreter
-description: A sample command-line application.
+description: Implementación del lenguaje de programación FoxLite en Dart.
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/freddyhcode/foxlite-interpreter
 
 environment:
   sdk: ^3.12.2
 
 # Add regular dependencies here.
 dependencies:
+  ffi: ^2.1.0
   path: ^1.9.0
 
 dev_dependencies:
