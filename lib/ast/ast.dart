@@ -2,10 +2,23 @@
 /// cuyo objetivo es representar la semántica del programa a evaluar. 
 library;
 
+// El libro concatena strings paso a paso para mostrar el AST,
+// por eso mantenemos ese mismo estilo.
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 abstract class Ast {}
 
 class Program extends Ast {
   List<Ast> statements = [];
+
+  @override
+  String toString() {
+    var output = "";
+    for (final statement in statements) {
+      output += statement.toString();
+    }
+    return output;
+  }
 }
 
 class Identifier extends Ast {
@@ -14,6 +27,11 @@ class Identifier extends Ast {
   Identifier(
     this.value
   );
+
+  @override
+  String toString() {
+    return value;
+  }
 }
 
 class Integer extends Ast {
@@ -22,6 +40,11 @@ class Integer extends Ast {
   Integer(
     this.value
   );
+
+  @override
+  String toString() {
+    return value.toString();
+  }
 }
 
 class StringLiteral extends Ast {
@@ -30,6 +53,11 @@ class StringLiteral extends Ast {
   StringLiteral(
     this.value
   );
+
+  @override
+  String toString() {
+    return value;
+  }
 }
 
 class Boolean extends Ast {
@@ -38,16 +66,35 @@ class Boolean extends Ast {
   Boolean(
     this.value
   );
+
+  @override
+  String toString() {
+    return value ? ".t." : ".f.";
+  }
 }
 
 class Null extends Ast {
   dynamic value;
 
   Null(): value = null;
+
+  @override
+  String toString() {
+    return ".null.";
+  }
 }
 
 class Block extends Ast {
   List<Ast> statements = [];
+
+  @override
+  String toString() {
+    var output = "";
+    for (final statement in statements) {
+      output += statement.toString();
+    }
+    return output;
+  }
 }
 
 class FunctionDecl extends Ast {
@@ -60,6 +107,27 @@ class FunctionDecl extends Ast {
     List<Ast>? params,
     this.body,
   ) : params = params ?? [];
+
+  @override
+  String toString() {
+    var output = "function";
+    output += " " + name.toString();
+    output += "(";
+
+    final paramsList = <String>[];
+    for (final param in params) {
+      paramsList.add(param.toString());
+    }
+
+    output += paramsList.join(",");
+    output += ")";
+    output += "\n";
+    output += "\t" + body.toString();
+    output += "\n";
+    output += "endfunc";
+
+    return output;
+  }
 }
 
 class FunctionCall extends Ast {
@@ -67,6 +135,22 @@ class FunctionCall extends Ast {
   List<Ast> arguments = [];
 
   FunctionCall();
+
+  @override
+  String toString() {
+    var output = name.toString();
+    output += "(";
+
+    final args = <String>[];
+    for (final arg in arguments) {
+      args.add(arg.toString());
+    }
+
+    output += args.join(",");
+    output += ")";
+
+    return output;
+  }
 }
 
 class DoWhile extends Ast {
@@ -77,6 +161,18 @@ class DoWhile extends Ast {
     this.condition,
     this.block,
   );
+
+  @override
+  String toString() {
+    var output = "do while ";
+    output += condition.toString();
+    output += "\n";
+    output += "\t" + block.toString();
+    output += "\n";
+    output += "enddo";
+
+    return output;
+  }
 }
 
 class IfStatement extends Ast {
@@ -85,6 +181,26 @@ class IfStatement extends Ast {
   Block? alternative;
 
   IfStatement();
+
+  @override
+  String toString() {
+    var output = "if ";
+    output += condition.toString();
+    output += "\n";
+    output += "\t" + consequence.toString();
+
+    if (alternative != null && alternative!.statements.isNotEmpty) {
+      output += "\n";
+      output += "else";
+      output += "\n";
+      output += "\t" + alternative.toString();
+    }
+
+    output += "\n";
+    output += "endif";
+
+    return output;
+  }
 }
 
 class BinaryOp extends Ast {
@@ -97,6 +213,17 @@ class BinaryOp extends Ast {
     this.operator,
     this.right,
   );
+
+  @override
+  String toString() {
+    var output = left.toString();
+    output += " ";
+    output += operator.toString();
+    output += " ";
+    output += right.toString();
+
+    return output;
+  }
 }
 
 class UnaryOp extends Ast {
@@ -107,6 +234,14 @@ class UnaryOp extends Ast {
     this.operator,
     this.right,
   );
+
+  @override
+  String toString() {
+    var output = operator.toString();
+    output += right.toString();
+
+    return output;
+  }
 }
 
 class VariableDecl extends Ast {
@@ -117,6 +252,14 @@ class VariableDecl extends Ast {
     this.name,
     this.scope,
   );
+
+  @override
+  String toString() {
+    var output = scope.toString();
+    output += " " + name.toString();
+
+    return output;
+  }
 }
 
 class Assignment extends Ast {
@@ -127,6 +270,15 @@ class Assignment extends Ast {
     this.name, 
     [this.value,]
   );
+
+  @override
+  String toString() {
+    var output = name.toString();
+    output += " = ";
+    output += value.toString();
+
+    return output;
+  }
 }
 
 class ReturnStmt extends Ast {
@@ -135,10 +287,32 @@ class ReturnStmt extends Ast {
   ReturnStmt([
     this.value,
   ]);
+
+  @override
+  String toString() {
+    var output = "return ";
+    output += value.toString();
+
+    return output;
+  }
 }
 
 class PrintStmt extends Ast {
   List<Ast> arguments = [];
 
   PrintStmt();
+
+  @override
+  String toString() {
+    var output = "?";
+
+    final args = <String>[];
+    for (final arg in arguments) {
+      args.add(arg.toString());
+    }
+
+    output += args.join(",");
+
+    return output;
+  }
 }
